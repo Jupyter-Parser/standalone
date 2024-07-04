@@ -1,0 +1,12 @@
+node_modules
+dist
+generator_dist
+out
+.DS_Store
+*.log*
+venv
+__pycache__
+*.spec
+*.exe
+build
+*.mjs
