@@ -2,6 +2,13 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
+import vibe from '@pyke/vibe'
+
+const vibeApplicable = vibe.platform.isWin10_1809() || vibe.platform.isWin11()
+
+if (vibeApplicable) {
+  vibe.setup(app)
+}
 
 let mainWindow: BrowserWindow
 
@@ -9,17 +16,45 @@ function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,
+    minWidth: 870,
     height: 670,
+    center: true,
+    backgroundColor: '#00000000',
     show: false,
+    thickFrame: false,
     autoHideMenuBar: true,
+    frame: process.platform !== 'darwin',
+    vibrancy: 'under-window',
+    visualEffectState: 'active',
+    titleBarStyle: 'hidden',
+    trafficLightPosition: { x: 15, y: 10 },
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
+    },
+    titleBarOverlay:
+      process.platform === 'win32'
+        ? {
+            color: '#232323',
+            symbolColor: '#999'
+          }
+        : undefined
+  })
+
+  if (vibeApplicable) {
+    vibe.forceTheme(mainWindow, 'dark')
+  }
+
+  ipcMain.on('apply', (_) => {
+    mainWindow.setBackgroundColor('#EE212121')
+    if (vibeApplicable) {
+      vibe.applyEffect(mainWindow, 'blurbehind')
     }
   })
 
-  mainWindow.on('ready-to-show', () => {
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.setBackgroundColor('#212121')
     mainWindow.show()
   })
 

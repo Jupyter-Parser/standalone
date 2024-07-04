@@ -3,6 +3,10 @@ import { ElectronAPI } from '@electron-toolkit/preload'
 declare global {
   interface Window {
     electron: ElectronAPI
-    api: unknown
+    platform: NodeJS.Platform
+    context: {
+      locale: string
+      timeZone: string
+    }
   }
 }
