@@ -28,8 +28,12 @@ jobs:
       - name: Build project
         id: build
         run: |
-          yarn
+          cd generator
+          python -m venv venv
+          venv\Scripts\activate
           pip install -r generator/requirements.txt
+          cd ..
+          yarn
           yarn build:win
       - name: Create Release
         id: create_release
