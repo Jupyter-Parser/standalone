@@ -31,7 +31,7 @@ jobs:
           cd generator
           python -m venv venv
           venv\Scripts\activate
-          pip install -r generator/requirements.txt
+          pip install -r requirements.txt
           cd ..
           yarn
           yarn build:win
