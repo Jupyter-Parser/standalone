@@ -28,8 +28,8 @@ jobs:
       - name: Build project
         id: build
         run: |
-          yarn
           pip install -r generator/requirements.txt
+          yarn
           yarn build:win
       - name: Create Release
         id: create_release
@@ -39,3 +39,4 @@ jobs:
         with:
           files: |
             dist/JupyterConverter-${{ github.ref_name }}-setup.exe
+            resources/extra/generator.exe
