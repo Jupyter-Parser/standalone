@@ -19,7 +19,7 @@ module.exports = {
   nsis: {
     oneClick: false,
     perMachine: true,
-    artifactName: '${name}-${version}-setup.${ext}',
+    artifactName: '${name}-v${version}-setup.${ext}',
     shortcutName: '${productName}',
     uninstallDisplayName: '${productName}',
     createDesktopShortcut: 'always'
@@ -42,6 +42,6 @@ module.exports = {
   ],
   asarUnpack: ['resources/**'],
   appImage: {
-    artifactName: '${name}-${version}.${ext}'
+    artifactName: '${name}-v${version}.${ext}'
   }
 }
