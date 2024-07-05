@@ -3,6 +3,10 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
 import vibe from '@pyke/vibe'
+import { initGenerator } from './converter'
+import { initLogger } from './logger'
+
+initLogger(app)
 
 const vibeApplicable = vibe.platform.isWin10_1809() || vibe.platform.isWin11()
 
@@ -93,6 +97,10 @@ if (!gotTheLock) {
   app.whenReady().then(() => {
     // Set app user model id for windows
     electronApp.setAppUserModelId('com.electron')
+
+    initGenerator(app).then(() => {
+      console.log('Inited')
+    })
 
     // Default open or close DevTools by F12 in development
     // and ignore CommandOrControl + R in production.
