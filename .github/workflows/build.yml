@@ -38,4 +38,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
-            ./dist/JupyterConverter-${{ github.ref_name }}-setup.exe
+            dist/JupyterConverter-${{ github.ref_name }}-setup.exe
