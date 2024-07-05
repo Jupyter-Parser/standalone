@@ -1,1 +1,1 @@
-pyinstaller --noconfirm --onefile --console generator/main.py --distpath resources/extra -n generator.exe --icon resources/icon.ico --hidden-import fastapi
+pyinstaller --noconfirm --onefile --console generator/main.py --distpath resources/extra -y --clean --additional-hooks-dir extra-hooks -n generator.exe --icon resources/icon.ico --hidden-import fastapi

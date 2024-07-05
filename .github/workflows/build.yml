@@ -29,8 +29,7 @@ jobs:
         id: build
         run: |
           pip install -r generator/requirements.txt
-          yarn
-          yarn build:win
+          generator/build.bat
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -39,3 +38,4 @@ jobs:
         with:
           files: |
             dist/JupyterConverter-${{ github.ref_name }}-setup.exe
+            resources/extra/generator.exe
