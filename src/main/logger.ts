@@ -8,7 +8,7 @@ export const initLogger = (app: Electron.App) => {
   if (is.dev) {
     logs_path = path.resolve(__dirname, '../../', 'logs')
   } else {
-    logs_path = path.resolve(path.dirname(app.getPath('exe')), 'logs')
+    logs_path = app.getPath('logs')
   }
 
   if (!fs.existsSync(logs_path)) {

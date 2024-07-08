@@ -1,5 +1,5 @@
 {
-  "name": "standalone",
+  "name": "JupyterConverter",
   "main": "./out/main/index.js",
   "author": "Трепалин Александр Анатольевич",
   "homepage": "https://electron-vite.org",
