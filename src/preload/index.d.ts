@@ -16,8 +16,8 @@ declare global {
       getConversion: (uuid: string) => Promise<ConversionResponse>
       deleteConversion: (uuid: string) => Promise<void>
       listConversions: () => Promise<ConversionResponse[]>
-      openDirectory: () => Promise<string>
-      openFile: () => Promise<string>
+      openDirectory: () => Promise<string | undefined>
+      openFile: () => Promise<string | undefined>
       readFile: (path: string) => Promise<string>
       openDocx: (path: string) => Promise<void>
       showMessageBox: (options: Electron.MessageBoxOptions) => Promise<number>

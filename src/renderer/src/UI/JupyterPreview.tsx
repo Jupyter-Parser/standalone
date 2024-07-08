@@ -3,29 +3,48 @@ import { IpynbRenderer } from 'react-ipynb-renderer-katex'
 import 'katex/dist/katex.min.css'
 
 import 'react-ipynb-renderer-katex/dist/styles/monokai.css'
-import { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useConversions } from '@renderer/store/conversions'
 
-export const JupyterPreview = () => {
-  const [ipynb, setIpynb] = useState<any>('')
+export interface JupyterPreviewProps {
+  path?: string
+}
 
-  const { selectedConversion } = useConversions()
+export const JupyterPreview: FC<JupyterPreviewProps> = ({ path }) => {
+  const [ipynb, setIpynb] = useState<any>('')
 
   useEffect(() => {
     getIpynb()
-  }, [selectedConversion])
+  }, [path])
 
   const getIpynb = useCallback(async () => {
-    if (selectedConversion) {
-      const conversion = await window.generator.getConversion(selectedConversion)
-      const path = conversion.notebook
-
+    if (path) {
       const data = await window.generator.readFile(path)
       setIpynb(JSON.parse(data))
+    }
+  }, [path])
+
+  return <IpynbRenderer ipynb={ipynb} />
+}
+
+export const CurrentJupyterPreview = () => {
+  const { selectedConversion } = useConversions()
+
+  const [path, setPath] = useState<string>()
+
+  const getPath = useCallback(async () => {
+    if (selectedConversion) {
+      const conversion = await window.generator.getConversion(selectedConversion)
+
+      setPath(conversion.notebook)
     } else {
-      setIpynb({})
+      setPath(undefined)
     }
   }, [selectedConversion])
 
-  return <IpynbRenderer ipynb={ipynb} />
+  useEffect(() => {
+    getPath()
+  }, [selectedConversion])
+
+  return <JupyterPreview path={path} />
 }

@@ -5,7 +5,10 @@ import RoutePaths from './Routes'
 import { DraggableTopBar } from '@renderer/components/DraggableTopBar'
 
 const AppRouter = () => {
-  const [HomePage] = multiLazy([() => import('../pages/HomePage')])
+  const [HomePage, CreateConversionPage] = multiLazy([
+    () => import('../pages/HomePage'),
+    () => import('../pages/CreateConversionPage')
+  ])
 
   return (
     <Suspense fallback={<></>}>
@@ -20,6 +23,7 @@ const AppRouter = () => {
           }
         >
           <Route path={RoutePaths.HOME} element={<HomePage />} />
+          <Route path={RoutePaths.CREATE} element={<CreateConversionPage />} />
         </Route>
       </Routes>
     </Suspense>

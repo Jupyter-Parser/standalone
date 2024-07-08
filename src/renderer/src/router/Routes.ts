@@ -1,5 +1,6 @@
 enum RoutePaths {
-  HOME = '/'
+  HOME = '/',
+  CREATE = '/create'
 }
 
 export default RoutePaths
