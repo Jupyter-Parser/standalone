@@ -21,6 +21,8 @@ export const JupyterPreview: FC<JupyterPreviewProps> = ({ path }) => {
     if (path) {
       const data = await window.generator.readFile(path)
       setIpynb(JSON.parse(data))
+    } else {
+      setIpynb({})
     }
   }, [path])
 

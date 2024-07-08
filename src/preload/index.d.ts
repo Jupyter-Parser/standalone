@@ -1,5 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { ConversionResponse } from 'src/shared/types'
+import { ConversionResponse, Conversion } from 'src/shared/types'
 
 declare global {
   interface Window {
