@@ -10,6 +10,7 @@ import { JupyterPreview } from '@renderer/UI/JupyterPreview'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { className as cn } from '@renderer/utils/className'
+import { BackButton } from '@renderer/components/BackButton'
 
 const CreateConversionPage = () => {
   const navigate = useNavigate()
@@ -50,6 +51,7 @@ const CreateConversionPage = () => {
         })}
       >
         <Sidebar className="p-2 flex flex-col gap-2 ">
+          <BackButton />
           <div>Настройки:</div>
           <DirectorySelector onChange={setCwd} />
           <NotebookSelector onChange={setNotebook} />
