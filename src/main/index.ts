@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
@@ -125,6 +125,34 @@ if (!gotTheLock) {
 
     ipcMain.handle('listConversions', async () => {
       return await listConversions()
+    })
+
+    ipcMain.handle('dialog:openDirectory', async () => {
+      const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openDirectory']
+      })
+      if (canceled) {
+        return
+      } else {
+        return filePaths[0]
+      }
+    })
+
+    ipcMain.handle('dialog:openFile', async () => {
+      const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile'],
+        filters: [
+          {
+            name: 'Файл jupyter notebook',
+            extensions: ['ipynb']
+          }
+        ]
+      })
+      if (canceled) {
+        return
+      } else {
+        return filePaths[0]
+      }
     })
 
     createWindow()

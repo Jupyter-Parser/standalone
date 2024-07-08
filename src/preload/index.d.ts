@@ -14,6 +14,8 @@ declare global {
       convert: (conversion: Conversion) => Promise<ConversionResponse>
       getConversion: (uuid: string) => Promise<ConversionResponse>
       listConversions: () => Promise<ConversionResponse[]>
+      openDirectory: () => Promise<string>
+      openFile: () => Promise<string>
     }
   }
 }

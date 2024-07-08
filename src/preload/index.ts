@@ -38,7 +38,9 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('generator', {
       convert: (conversion: Conversion) => ipcRenderer.invoke('convert', conversion),
       getConversion: (uuid: string) => ipcRenderer.invoke('getConversion', uuid),
-      listConversions: () => ipcRenderer.invoke('listConversions')
+      listConversions: () => ipcRenderer.invoke('listConversions'),
+      openDirectory: () => ipcRenderer.invoke('dialog:openDirectory'),
+      openFile: () => ipcRenderer.invoke('dialog:openFile')
     })
   } catch (error) {
     console.error(error)
