@@ -3,10 +3,13 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
 import vibe from '@pyke/vibe'
-import { initGenerator } from './converter'
+import { convert, getConversion, initGenerator, listConversions } from './converter'
 import { initLogger } from './logger'
+import { Conversion } from '../shared/types'
 
-initLogger(app)
+if (!is.dev) {
+  initLogger(app)
+}
 
 const vibeApplicable = vibe.platform.isWin10_1809() || vibe.platform.isWin11()
 
@@ -99,7 +102,7 @@ if (!gotTheLock) {
     electronApp.setAppUserModelId('com.electron')
 
     initGenerator(app).then(() => {
-      console.log('Inited')
+      console.log('Generator inited')
     })
 
     // Default open or close DevTools by F12 in development
@@ -111,6 +114,18 @@ if (!gotTheLock) {
 
     // IPC test
     ipcMain.on('ping', () => console.log('pong'))
+
+    ipcMain.handle('convert', async (_, args: Conversion) => {
+      return await convert(args)
+    })
+
+    ipcMain.handle('getConversion', async (_, args: string) => {
+      return await getConversion(args)
+    })
+
+    ipcMain.handle('listConversions', async () => {
+      return await listConversions()
+    })
 
     createWindow()
 

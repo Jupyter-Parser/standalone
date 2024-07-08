@@ -11,7 +11,9 @@ export const initLogger = (app: Electron.App) => {
     logs_path = path.resolve(path.dirname(app.getPath('exe')), 'logs')
   }
 
-  fs.mkdirSync(logs_path)
+  if (!fs.existsSync(logs_path)) {
+    fs.mkdirSync(logs_path)
+  }
 
   const access = fs.createWriteStream(path.resolve(logs_path, 'node.access.log'), { flags: 'a' })
   const error = fs.createWriteStream(path.resolve(logs_path, 'node.error.log'), { flags: 'a' })

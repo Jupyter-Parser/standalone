@@ -1,6 +1,10 @@
 import { contextBridge, shell } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { ipcRenderer } from 'electron'
+import { Conversion } from '../shared/types'
+import { Console } from 'console'
+
+const nodeConsole = new Console(process.stdout, process.stderr)
 
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
@@ -26,9 +30,15 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('platform', process.platform)
+    contextBridge.exposeInMainWorld('nodeConsole', nodeConsole)
     contextBridge.exposeInMainWorld('context', {
       locale: navigator.language,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    })
+    contextBridge.exposeInMainWorld('generator', {
+      convert: (conversion: Conversion) => ipcRenderer.invoke('convert', conversion),
+      getConversion: (uuid: string) => ipcRenderer.invoke('getConversion', uuid),
+      listConversions: () => ipcRenderer.invoke('listConversions')
     })
   } catch (error) {
     console.error(error)

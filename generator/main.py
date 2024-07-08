@@ -61,6 +61,8 @@ async def websocket_endpoint(
             await manager.handler(websocket)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+    except Exception as ex:
+        write_status("error", str(ex))
 
 
 if __name__ == "__main__":
