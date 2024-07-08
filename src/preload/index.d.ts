@@ -6,6 +6,7 @@ declare global {
     electron: ElectronAPI
     platform: NodeJS.Platform
     nodeConsole: Console
+    isDev: () => Promise<boolean>
     context: {
       locale: string
       timeZone: string
@@ -19,6 +20,7 @@ declare global {
       openFile: () => Promise<string>
       readFile: (path: string) => Promise<string>
       openDocx: (path: string) => Promise<void>
+      showMessageBox: (options: Electron.MessageBoxOptions) => Promise<number>
     }
   }
 }

@@ -188,6 +188,16 @@ if (!gotTheLock) {
       await shell.openPath(args)
     })
 
+    ipcMain.handle('showMessageBox', async (_, options: Electron.MessageBoxOptions) => {
+      const result = await dialog.showMessageBox(mainWindow, options)
+
+      return result.response
+    })
+
+    ipcMain.handle('isDev', () => {
+      return is.dev
+    })
+
     createWindow()
 
     app.on('activate', function () {

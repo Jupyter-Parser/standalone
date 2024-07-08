@@ -7,9 +7,18 @@ export const DeleteConversionButton = ({ ...props }: ActionButtonProps) => {
 
   const onClick = async () => {
     if (selectedConversion) {
-      selectConversion()
-      await window.generator.deleteConversion(selectedConversion)
-      setNeedUpdate(true)
+      const result = await window.generator.showMessageBox({
+        type: 'question',
+        message: 'Вы уверены, что хотите удалить конвертацию?',
+        title: 'Подтверждение',
+        buttons: ['Нет', 'Да']
+      })
+
+      if (result == 1) {
+        selectConversion()
+        await window.generator.deleteConversion(selectedConversion)
+        setNeedUpdate(true)
+      }
     }
   }
 

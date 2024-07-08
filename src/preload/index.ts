@@ -31,6 +31,7 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('platform', process.platform)
     contextBridge.exposeInMainWorld('nodeConsole', nodeConsole)
+    contextBridge.exposeInMainWorld('isDev', () => ipcRenderer.invoke('isDev'))
     contextBridge.exposeInMainWorld('context', {
       locale: navigator.language,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -43,7 +44,9 @@ if (process.contextIsolated) {
       openDirectory: () => ipcRenderer.invoke('dialog:openDirectory'),
       openFile: () => ipcRenderer.invoke('dialog:openFile'),
       readFile: (path: string) => ipcRenderer.invoke('readFile', path),
-      openDocx: (path: string) => ipcRenderer.invoke('openDocx', path)
+      openDocx: (path: string) => ipcRenderer.invoke('openDocx', path),
+      showMessageBox: (options: Electron.MessageBoxOptions) =>
+        ipcRenderer.invoke('showMessageBox', options)
     })
   } catch (error) {
     console.error(error)
