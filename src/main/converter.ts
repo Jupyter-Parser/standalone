@@ -150,3 +150,12 @@ export const listConversions = async () => {
     })
     .filter((conversion) => !!conversion)
 }
+
+export const deleteConversion = async (uuid: string) => {
+  const dir = path.resolve(conversions_path, uuid)
+
+  fs.rmSync(dir, {
+    recursive: true,
+    force: true
+  })
+}

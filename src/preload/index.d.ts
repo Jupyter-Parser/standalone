@@ -13,9 +13,12 @@ declare global {
     generator: {
       convert: (conversion: Conversion) => Promise<ConversionResponse>
       getConversion: (uuid: string) => Promise<ConversionResponse>
+      deleteConversion: (uuid: string) => Promise<void>
       listConversions: () => Promise<ConversionResponse[]>
       openDirectory: () => Promise<string>
       openFile: () => Promise<string>
+      readFile: (path: string) => Promise<string>
+      openDocx: (path: string) => Promise<void>
     }
   }
 }

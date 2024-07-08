@@ -3,9 +3,16 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
 import vibe from '@pyke/vibe'
-import { convert, getConversion, initGenerator, listConversions } from './converter'
+import {
+  convert,
+  deleteConversion,
+  getConversion,
+  initGenerator,
+  listConversions
+} from './converter'
 import { initLogger } from './logger'
 import { Conversion } from '../shared/types'
+import * as fs from 'fs'
 
 if (!is.dev) {
   initLogger(app)
@@ -123,6 +130,10 @@ if (!gotTheLock) {
       return await getConversion(args)
     })
 
+    ipcMain.handle('deleteConversion', async (_, args: string) => {
+      return await deleteConversion(args)
+    })
+
     ipcMain.handle('listConversions', async () => {
       return await listConversions()
     })
@@ -153,6 +164,28 @@ if (!gotTheLock) {
       } else {
         return filePaths[0]
       }
+    })
+
+    ipcMain.handle('readFile', async (_, args: string) => {
+      return new Promise<string>((resolve, reject) => {
+        fs.readFile(
+          args,
+          {
+            encoding: 'utf-8'
+          },
+          (err, data) => {
+            if (err) {
+              reject(err)
+            } else {
+              resolve(data)
+            }
+          }
+        )
+      })
+    })
+
+    ipcMain.handle('openDocx', async (_, args: string) => {
+      await shell.openPath(args)
     })
 
     createWindow()
